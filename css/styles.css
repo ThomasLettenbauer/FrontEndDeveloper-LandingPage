@@ -66,26 +66,45 @@ section {
 /* Navigation Styles*/
 .navbar__menu ul {
     padding-left: 0;
-    margin: 0;
     text-align: right;
+    margin:0;
+    color: #333;
 }
 
 .navbar__menu li {
     display: inline-block;
 }
 
+.navbar__menu_invisible {
+    display: none;
+    transition: ease 0.5s all;    
+}
+
 .navbar__menu .menu__link {
     display: block;
-    padding: 1em;
+    padding: 0.15em;
+    font-family: 'Oxygen', Sans-Serif;
+    font-size: 1.2em;
     font-weight: bold;
+}
+
+.navbar__menu a {
     text-decoration: none;
+    color: #888;
+}
+
+.menu__active a {
     color: #000;
 }
 
 .navbar__menu .menu__link:hover {
-    background: #333;
+    background: rgb(20, 22, 66);
     color: #fff;
     transition: ease 0.3s all;
+}
+
+.menu__link:hover a {
+   color: #fff;
 }
 
 /* Header Styles */

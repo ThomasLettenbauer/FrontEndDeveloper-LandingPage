@@ -1,15 +1,7 @@
 /**
  * 
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- * 
- * Dependencies: None
- * 
- * JS Version: ES2015/ES6
- * 
- * JS Standard: ESlint
+ * JS for Landing Page Project
+ * It is about manipulationg the DOM
  * 
 */
 
@@ -18,8 +10,10 @@
  * 
 */
 
-var sections = document.querySelectorAll("section");
+var sections = document.querySelectorAll('section');
 var navHeight; // Height of Navigation
+var myTimeout; // Timeout Handle
+const supportsNativeSmoothScroll = 'scrollBehavior' in document.documentElement.style;
 
 /**
  * End Global Variables
@@ -38,11 +32,31 @@ function isInViewPort(testElement) {
     );
 };
 
+// Make Navigation visible/invisible
+function navigationVisible(visibleYN) {
+
+    var navMenu = document.querySelector('.navbar__menu');
+
+    if (!visibleYN) {
+        navMenu.classList.add('navbar__menu_invisible');
+    } else { navMenu.classList.remove('navbar__menu_invisible'); }
+
+    clearTimeout(myTimeout);
+
+    myTimeout = setTimeout(function () {
+        navigationVisible(false)
+    },
+        5000);
+
+}
+
 /**
  * End Helper Functions
  * Begin Main Functions
  * 
 */
+
+
 
 // build the nav
 function buildMenu() {
@@ -54,10 +68,11 @@ function buildMenu() {
     for (var i = 0; i < sections.length; i++) {
         navName = sections[i].getAttribute('data-nav');
         sectionName = sections[i].getAttribute('id');
-        navList.innerHTML += '<li class="menu__link"><a href="#' + sectionName + '">' + navName + '</a></li>';
+        navList.innerHTML += '<li class="menu__link" id="section__' + sectionName + '"><a href="#' + sectionName + '">' + navName + '</a></li>';
     }
 
     navHeight = document.querySelector('header').getBoundingClientRect().height;
+
 }
 
 // Add class 'active' to section when near top of viewport
@@ -65,12 +80,20 @@ function checkActiveSection() {
 
     for (var i = 0; i < sections.length; i++) {
 
+        var sectionID = 'section__' + sections[i].getAttribute('id');
+        var navSection = document.getElementById(sectionID);
+
+
         if (isInViewPort(sections[i])) {
             sections[i].classList.add('active');
+            navSection.classList.add('menu__active');
         } else {
             sections[i].classList.remove('active');
+            navSection.classList.remove('menu__active');
         }
     }
+
+
 
 }
 
@@ -81,11 +104,16 @@ function smoothScrollingTo(target) {
     var myLinkedElement = document.querySelector(target.getAttribute('href'));
     var scrollTop = myLinkedElement.offsetTop - navHeight;
     var scrollLeft = myLinkedElement.offsetLeft;
-    window.scrollTo({
-        top: scrollTop,
-        left: scrollLeft,
-        behavior: 'smooth'
-    });
+
+    if (supportsNativeSmoothScroll) {
+        window.scrollTo({
+            top: scrollTop,
+            left: scrollLeft,
+            behavior: 'smooth'
+        })
+    } else {
+        window.scrollTo(scrollLeft, scrollTop);
+    };
 }
 
 /**
@@ -109,6 +137,7 @@ addEventListener("click", function (event) {
 
 // Set sections as active
 addEventListener('scroll', function () {
+    navigationVisible(true);
     checkActiveSection();
 })
 

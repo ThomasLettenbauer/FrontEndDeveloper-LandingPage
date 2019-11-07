@@ -50,7 +50,7 @@ main {
     margin: 10vh 1em 10vh;
 }
 
-.main-hero {
+.main__hero {
     min-height: 40vh;
     padding-top: 3em;
 }
@@ -88,12 +88,17 @@ section {
     font-weight: bold;
 }
 
+.menu__link p {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
 .navbar__menu a {
     text-decoration: none;
     color: #888;
 }
 
-.menu__active a {
+.menu__active a p {
     color: #000;
 }
 

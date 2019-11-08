@@ -99,7 +99,7 @@ function navigationVisible(visibleYN) {
     myTimeout = setTimeout(function () {
         navigationVisible(false)
     },
-        50000);
+        5000);
 
 }
 
